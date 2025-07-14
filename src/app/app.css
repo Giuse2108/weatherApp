@@ -1,0 +1,522 @@
+.main {
+  display: flex;
+  justify-content: center; /* Centra il .content orizzontalmente */
+  padding: 20px; /* Padding generale intorno a tutto il contenuto della pagina */
+  box-sizing: border-box; /* Include padding nel calcolo della larghezza/altezza */
+  margin-top: 100px;
+}
+
+.content {
+  width: 90%;
+  max-width: 1500px;
+  min-height: 70vh;
+  background-image: url('../assets/background-terra.jpg');
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+  padding: 20px;
+  /* MODIFICA FONDAMENTALE QUI: .content ora impila le sue sezioni verticalmente */
+  display: flex;
+  flex-direction: column; /* Impila top-section e main-weather-and-hourly-forecast verticalmente */
+  gap: 20px; /* Spazio tra la sezione superiore e quella inferiore */
+  overflow: hidden;
+}
+
+
+/* NUOVO: Stili per la sezione superiore (Search Bar e Toggle) */
+.top-section {
+  display: flex;
+  width: 100%;
+  /* Potresti voler allineare il first-container al lato sinistro o distribuirlo */
+  justify-content: flex-start; /* O space-between se vuoi allineare la search a sinistra e il toggle a destra */
+  align-items: flex-start;
+}
+
+.first-container {
+  display: flex;
+  justify-content: space-between; /* Distribuisci search-city e temperature-container */
+  align-items: center; /* Allinea verticalmente i loro contenuti */
+  width: 100%; /* Occupa tutta la larghezza del suo genitore (.top-section) */
+  /* margin-bottom: 20px; Rimosso, il gap del .content gestirà lo spazio verticale */
+  padding: 0;
+}
+
+.search-city {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 250px;
+  background-color: #1F2124;
+  border: 2px solid #ccc;
+  border-radius: 28px;
+  padding: 5px 10px;
+  margin: 0;
+}
+
+.city-input {
+  flex-grow: 1;
+  padding: 10px;
+  padding-left: 40px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  background-color: transparent;
+  color: #fff;
+}
+
+.city-input::placeholder {
+  color: #888;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  font-size: 20px;
+  color: #888;
+  pointer-events: none;
+}
+
+.temperature-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+  background-color: #282C34;
+  border-radius: 15px;
+  padding: 3px;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 90px;
+  height: 36px;
+  overflow: hidden;
+}
+
+.temp-toggle-bg {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 43px;
+  height: 34px;
+  background-color: #fff;
+  border-radius: 15px;
+  transform: translateX(0); /* Default per °F (sinistra) */
+  transition: transform 0.3s ease;
+  z-index: 1;
+}
+
+.temp-toggle-bg.move-to-celsius {
+    transform: translateX(41px); /* Sposta a destra per °C */
+}
+
+.temp-unit {
+  position: relative;
+  font-size: 0.9rem;
+  font-weight: bold;
+  opacity: 0.7;
+  cursor: pointer;
+  padding: 0 5px;
+  transition: opacity 0.3s ease, color 0.3s ease;
+  z-index: 2;
+  flex-grow: 1;
+  text-align: center;
+}
+
+.temp-unit:hover {
+  opacity: 1;
+}
+
+.temp-unit.active-unit {
+  opacity: 1;
+  color: #282C34;
+}
+
+/* NUOVO: Stili per la sezione che affianca il meteo attuale e le previsioni orarie */
+.main-weather-and-hourly-forecast {
+  display: flex;
+  flex-direction: row; /* Meteo attuale e previsioni orarie affiancate */
+  gap: 30px; /* Spazio tra il blocco di Helsinki e il blocco orario */
+  width: 100%; /* Occupa tutta la larghezza disponibile */
+  flex-grow: 1; /* Permette a questa sezione di espandersi verticalmente */
+  align-items: flex-start; /* Allinea gli elementi in alto */
+}
+
+.second-container {
+  display: flex;
+  flex-direction: column;
+  background-color: #282C34;
+  border-radius: 20px;
+  padding: 20px;
+  color: #fff;
+  flex-shrink: 0; /* Impedisce che si rimpicciolisca troppo */
+  width: 450px; /* Larghezza fissa per il blocco di Helsinki come nell'immagine */
+  height: 250px; /* L'altezza si adatta al contenuto, ma non si espande inutilmente */
+  box-sizing: border-box;
+}
+
+.current-weather-main-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+.current-weather-main-info .temperature {
+  font-size: 5rem;
+  font-weight: lighter;
+  margin: 0;
+  line-height: 1;
+  margin-right: 40px;
+}
+
+.city-time-info {
+  text-align: right;
+}
+
+.city-name {
+  font-size: 2rem;
+  margin: 0;
+  font-weight: normal;
+}
+
+.hours-now {
+  font-size: 0.9rem;
+  opacity: 0.7;
+  margin: 0;
+}
+
+.weather-description-block {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.weatherData-icon {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  margin-right: 15px;
+}
+
+.main-weather-text {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.current-weather-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px 20px;
+  padding-top: 15px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+}
+
+.detail-icon {
+  font-size: 1.2rem;
+  margin-right: 10px;
+}
+
+.detail-text {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  margin-left: 5px;
+}
+
+/* Stili per il contenitore di tutte le previsioni orarie (LA COLONNA DI DESTRA) */
+.hourly-forecast-container {
+  display: flex; /* Rendi questo un flex container per le singole schede orarie*/
+  flex-direction: row; /* Le singole schede orarie sono affiancate*/
+  gap: 10px; /* Spazio tra le schede orarie*/
+  overflow-x: auto; /* Abilita lo scrolling orizzontale se ci sono troppi item*/
+  padding: 10px; /* Spazio interno attorno alle schede*/
+  flex-grow: 1; /* Permette al container di occupare lo spazio rimanente a destra*/
+  flex-shrink: 1;
+  border-radius: 20px; /* Bordi arrotondati come nell'immagine*/
+  padding: 20px; /* Spazio interno*/
+  justify-content: flex-start; /* Allinea gli item all'inizio (sinistra) del contenitore*/
+  align-items: center; /* Allinea verticalmente gli item al centro del contenitore*/
+  /* MODIFICA QUI: Rimuovi 'height: 100%;' per permettere al container di adattarsi all'altezza del suo contenuto
+     e al contempo essere allineato con il second-container.
+     Se il second-container ha 'height: max-content;', questo si adatterà.
+     L'altezza sarà determinata dall'altezza del contenuto interno e dal padding.
+  */
+  height: auto; /* L'altezza si adatta automaticamente al contenuto*/
+  box-sizing: border-box;
+}
+
+.hourly-forecast-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* background-color: #282C34; Rimuovi questo se vuoi che lo sfondo delle schede sia trasparente rispetto al genitore */
+  /* Le immagini suggeriscono uno sfondo leggermente più scuro o semplicemente l'ombra. */
+  /* Se vuoi l'effetto "scheda solida" che sembra galleggiare, potresti tenerlo o usare un colore leggermente diverso. */
+  background-color: #282C34;
+  border-radius: 10px; /* Bordi arrotondati per ogni scheda*/
+  padding: 10px 5px; /* Padding interno per ogni scheda*/
+  min-width: 70px; /* Larghezza minima per ogni scheda*/
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Ombra leggera per le schede*/
+  margin: 0; /* Assicurati che non ci siano margini esterni indesiderati*/
+  flex-basis: 100px; /* Larghezza di base per ogni scheda. Regola per adattarsi*/
+  flex-shrink: 0; /* Impedisce alle schede di rimpicciolirsi troppo*/
+}
+
+.forecast-time {
+  font-size: 0.8rem;
+  margin-bottom: 5px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.forecast-svg-icon {
+  width: 100%; /* L'immagine occupa il 100% della larghezza del suo genitore (.forecast-icon) */
+  height: 100%; /* L'immagine occupa il 100% dell'altezza del suo genitore */
+  object-fit: contain; /* Assicura che l'SVG sia ridimensionato per stare all'interno del contenitore senza essere tagliato */
+  max-width: 50px; /* Puoi impostare una dimensione massima per l'SVG qui */
+  max-height: 50px; /* Puoi impostare una dimensione massima per l'SVG qui */
+}
+
+.forecast-description {
+  font-size: 0.75rem; /* Rendi il testo più piccolo */
+  opacity: 0.7; /* Rendi il testo leggermente trasparente */
+  margin-bottom: 5px; /* Spazio sotto la descrizione e sopra la temperatura */
+  white-space: nowrap; /* Impedisce al testo di andare a capo */
+  overflow: hidden; /* Nasconde il testo che eccede la larghezza */
+  text-overflow: ellipsis; /* Aggiunge "..." se il testo è troppo lungo */
+  max-width: 100%; /* Assicura che non superi la larghezza del genitore */
+}
+
+.forecast-temp {
+  font-size: 2.1rem;
+  font-weight: bold;
+  margin-top: 50px;
+}
+
+.line-block {
+  width: 100%;
+  height: 1px;
+  background-color: #000000; /* Colore della linea */
+  margin: 10px 0; /* Spazio sopra e sotto la linea */
+}
+
+
+/* Contenitore principale del blocco "Other large cities" */
+.otherCities {
+  grid-column: 1; /* Nella prima colonna della griglia principale */
+  grid-row: 3; /* Posizionata sulla terza riga */
+  flex: 1;
+  max-width: 40%;
+  background-color: #282C34;
+  border-radius: 20px;
+  padding: 20px;
+  color: #fff;
+  /* width: 100%; /* Occupare il 100% della larghezza della sua cella (che è 380px) */
+  /* flex-shrink: 0; /* Non strettamente necessario qui, dato il grid-column */
+}
+
+/* Stili per il titolo "Other large cities" */
+.otherCities-title h2 {
+  font-size: 1.2rem;
+  margin-bottom: 15px; /* Spazio sotto il titolo e prima della lista delle città */
+  color: #A0A0A0; /* Colore grigio chiaro per il titolo, come nell'immagine */
+  font-weight: normal; /* Il titolo non sembra bold nell'immagine */
+}
+
+/* Contenitore della lista delle città */
+.otherCities-container {
+  display: flex;
+  flex-direction: column; /* Gli elementi delle città sono impilati verticalmente */
+  gap: 15px; /* Spazio tra ogni elemento città */
+}
+
+/* Stili per ogni singola voce della città */
+.otherCity-item {
+  display: flex;
+  justify-content: space-between; /* Allinea info a sinistra e meteo a destra */
+  align-items: center; /* Centra verticalmente gli elementi all'interno dell'item */
+  padding-bottom: 15px; /* Spazio sotto ogni elemento prima della linea divisoria */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Linea divisoria sottile */
+}
+
+/* Rimuovi il bordo inferiore e il padding dall'ultimo elemento della lista */
+.otherCity-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* Contenitore per le informazioni testuali della città (regione, nome, descrizione) */
+.otherCity-info {
+  display: flex;
+  flex-direction: column; /* Gli elementi di testo sono impilati verticalmente */
+  text-align: left; /* Allinea il testo a sinistra */
+}
+
+/* Stili per la regione (es. US, Denmark) */
+.otherCity-region {
+  font-size: 0.75rem; /* Dimensione più piccola per il codice della regione */
+  color: #A0A0A0; /* Colore grigio chiaro */
+  margin-bottom: 2px; /* Spazio tra regione e nome città */
+}
+
+/* Stili per il nome della città */
+.otherCity-name {
+  font-size: 1.1rem; /* Dimensione del font per il nome della città */
+  font-weight: bold; /* Grassetto per il nome della città */
+}
+
+/* Stili per la descrizione del meteo della città */
+.otherCity-desc {
+  font-size: 0.9rem; /* Dimensione del font per la descrizione */
+  color: #A0A0A0; /* Colore grigio chiaro per la descrizione */
+  margin-top: 2px; /* Spazio tra nome città e descrizione */
+}
+
+/* Contenitore per l'icona del meteo e la temperatura */
+.city-weather-summary {
+  display: flex;
+  align-items: center; /* Centra verticalmente icona e temperatura */
+  gap: 10px; /* Spazio tra l'icona e il testo della temperatura */
+}
+
+/* Stili per l'icona SVG della città */
+.city-icon {
+  width: 35px; /* Dimensione dell'icona (adatta come necessario per farla apparire come nell'immagine) */
+  height: 35px;
+  object-fit: contain; /* Assicura che l'SVG si adatti senza deformarsi */
+}
+
+/* Stili per la temperatura della città */
+.city-temp {
+  font-size: 1.4rem; /* Dimensione del font per la temperatura */
+  font-weight: bold; /* Grassetto per la temperatura */
+  /* Per il colore giallo delle temperature, aggiungi: */
+  /* color: #FFD700; */ /* O un giallo simile, come per le previsioni orarie se lo desideri */
+}
+
+/* Stili per il blocco "5-day forecast" (colonna destra della seconda riga) */
+.five-day-forecast-container {
+  background-color: #282C34;
+  border-radius: 20px;
+  padding: 20px;
+  color: #fff;
+  flex-grow: 1; /* Permette di occupare lo spazio rimanente */
+  box-sizing: border-box;
+}
+/* Stili per il 5-day forecast (mantenuti) */
+.five-day-forecast-header h3 {
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  color: #A0A0A0;
+  font-weight: normal;
+}
+
+.five-day-forecast-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.five-day-forecast-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.five-day-forecast-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.day-name {
+  flex: 0 0 50px; /* Larghezza fissa per il nome del giorno */
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+.five-day-icon {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+  margin-left: 10px; /* Spazio tra giorno e icona */
+}
+
+.day-description {
+  flex-grow: 1; /* Occupa lo spazio rimanente */
+  text-align: left;
+  font-size: 0.9rem;
+  color: #A0A0A0;
+  margin-left: 10px;
+}
+
+.day-temp {
+  font-size: 1.1rem;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+.bottom-section {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+}
+
+
+.temp-bar-container {
+  width: 80px; /* Larghezza del contenitore della barra, puoi regolarla */
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  position: relative; /* Per posizionare la barra interna */
+}
+
+.temp-bar {
+  height: 100%;
+  background: linear-gradient(to right, #00BFFF, #FFA500); /* Gradiente dal blu all'arancio */
+  border-radius: 2px;
+  /* La larghezza è gestita da [style.width]="dayForecast.barWidth" */
+}
+
+
+/* Media Queries per la responsività (opzionale ma consigliato) */
+@media (max-width: 1024px) {
+  .content {
+    max-width: 900px;
+  }
+  .second-container,
+  .otherCities {
+    width: 350px; /* Riduci la larghezza della colonna sinistra */
+  }
+}
+
+@media (max-width: 768px) {
+  .content {
+    flex-direction: column; /* Tutti i blocchi si impilano verticalmente */
+    max-width: unset; /* Rimuovi la larghezza massima per riempire lo schermo */
+    width: calc(100% - 40px); /* Larghezza completa con padding */
+  }
+
+  .main-weather-and-hourly-forecast,
+  .bottom-section {
+    flex-direction: column; /* Anche le sottosezioni si impilano verticalmente */
+  }
+
+  .second-container,
+  .hourly-forecast-container,
+  .otherCities,
+  .five-day-forecast-container {
+    width: 100%; /* Ogni blocco occupa tutta la larghezza disponibile */
+    max-width: unset; /* Rimuovi max-width */
+  }
+}
